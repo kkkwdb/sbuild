@@ -16,7 +16,7 @@ include $(RTE_SDK)/mk/internal/rte.install-pre.mk
 include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
 include $(RTE_SDK)/mk/internal/rte.build-pre.mk
 
-# DPDK uses a more up-to-date gcc, so clear the override here.
+# sbuild uses a more up-to-date gcc, so clear the override here.
 unexport CC
 override CFLAGS = $(MODULE_CFLAGS)
 

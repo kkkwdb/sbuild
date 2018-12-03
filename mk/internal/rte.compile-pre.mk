@@ -56,25 +56,11 @@ C_TO_O = $(CC) -Wp,-MD,$(call obj2dep,$(@)).tmp $(CPPFLAGS) $(CFLAGS) \
 C_TO_O_STR = $(subst ','\'',$(C_TO_O)) #'# fix syntax highlight
 C_TO_O_DISP = $(if $(V),"$(C_TO_O_STR)","  CC $(@)")
 endif
-EXPERIMENTAL_CHECK = $(RTE_SDK)/buildtools/check-experimental-syms.sh
-CHECK_EXPERIMENTAL = $(EXPERIMENTAL_CHECK) $(SRCDIR)/$(EXPORT_MAP) $@
 
-PMDINFO_GEN = $(RTE_SDK_BIN)/app/dpdk-pmdinfogen $@ $@.pmd.c
-PMDINFO_CC = $(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@.pmd.o $@.pmd.c
-PMDINFO_LD = $(CROSS)ld $(LDFLAGS) -r -o $@.o $@.pmd.o $@
-PMDINFO_TO_O = if grep -q 'RTE_PMD_REGISTER_.*(.*)' $<; then \
-	echo "$(if $V,$(PMDINFO_GEN),  PMDINFO $@.pmd.c)" && \
-	$(PMDINFO_GEN) && \
-	echo "$(if $V,$(PMDINFO_CC),  CC $@.pmd.o)" && \
-	$(PMDINFO_CC) && \
-	echo "$(if $V,$(PMDINFO_LD),  LD $@)" && \
-	$(PMDINFO_LD) && \
-	mv -f $@.o $@; fi
 C_TO_O_CMD = 'cmd_$@ = $(C_TO_O_STR)'
 C_TO_O_DO = @set -e; \
 	echo $(C_TO_O_DISP); \
 	$(C_TO_O) && \
-	$(PMDINFO_TO_O) && \
 	echo $(C_TO_O_CMD) > $(call obj2cmd,$(@)) && \
 	sed 's,'$@':,dep_'$@' =,' $(call obj2dep,$(@)).tmp > $(call obj2dep,$(@)) && \
 	rm -f $(call obj2dep,$(@)).tmp
