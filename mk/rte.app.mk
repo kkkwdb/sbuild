@@ -138,11 +138,17 @@ $(RTE_OUTPUT)/app/$(APP).map: $(APP)
 clean: _postclean
 	$(Q)rm -f $(_BUILD_TARGETS) $(_INSTALL_TARGETS) $(_CLEAN_TARGETS)
 
+
 .PHONY: doclean
 doclean:
 	$(Q)rm -rf $(APP) $(OBJS-all) $(DEPS-all) $(DEPSTMP-all) \
 	  $(CMDS-all) $(INSTALL-FILES-all) .$(APP).cmd $(APP).map
 
+.PHONY: distclean
+distclean: clean
+	-$(Q)rm -f $(RTE_OUTPUT)/app/$(APP).map $(RTE_OUTPUT)/app/$(APP)
+	-$(Q)rmdir $(RTE_OUTPUT)/app
+	-$(Q)rmdir $(RTE_OUTPUT)
 
 include $(RTE_SDK)/mk/internal/rte.compile-post.mk
 include $(RTE_SDK)/mk/internal/rte.install-post.mk

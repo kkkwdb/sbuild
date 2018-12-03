@@ -16,16 +16,31 @@ all: $(DIRS-y)
 .PHONY: clean
 clean: $(DIRS-y)
 
+OUTPUT=$(BASE_OUTPUT)/$(CUR_SUBDIR)/$(@)/build
+MKGOALS=$(MAKECMDGOALS)
+ifeq ($(RTE_DIR_ONE_PROJECT),1)
+OUTPUT=$(RTE_OUTPUT)
+MKGOALS=$(subst distclean,clean,$(MAKECMDGOALS))
+endif
+
 .PHONY: $(DIRS-y)
 $(DIRS-y):
 	@echo "== $@"
 	$(Q)$(MAKE) -C $(@) \
 		M=$(CURDIR)/$(@)/Makefile \
-		O=$(BASE_OUTPUT)/$(CUR_SUBDIR)/$(@)/$(RTE_TARGET) \
 		BASE_OUTPUT=$(BASE_OUTPUT) \
+		O=$(OUTPUT) \
 		CUR_SUBDIR=$(CUR_SUBDIR)/$(@) \
 		S=$(CURDIR)/$(@) \
-		$(filter-out $(DIRS-y),$(MAKECMDGOALS))
+		$(filter-out $(DIRS-y),$(MKGOALS))
+
+.PHONY: distclean
+distclean: clean
+ifeq ($(RTE_DIR_ONE_PROJECT),1)
+	-@rm -rf $(RTE_OUTPUT)/app
+	-@rmdir $(RTE_OUTPUT)
+endif
+	@true
 
 define depdirs_rule
 $(DEPDIRS-$(1)):
