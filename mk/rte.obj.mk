@@ -66,12 +66,16 @@ endif
 #
 .PHONY: clean
 clean: _postclean
+	@rm -f $(_BUILD_TARGETS) $(_INSTALL_TARGETS) $(_CLEAN_TARGETS)
 
 .PHONY: doclean
 doclean:
 	@rm -rf $(OBJ) $(OBJS-all) $(DEPS-all) $(DEPSTMP-all) \
 	  $(CMDS-all) $(INSTALL-FILES-all)
-	@rm -f $(_BUILD_TARGETS) $(_INSTALL_TARGETS) $(_CLEAN_TARGETS)
+
+.PHONY: distclean
+distclean: clean
+	$(Q)$(RM) -r $(RTE_OUTPUT)
 
 include $(RTE_SDK)/mk/internal/rte.compile-post.mk
 include $(RTE_SDK)/mk/internal/rte.install-post.mk
