@@ -68,22 +68,4 @@ else
 	ifeq ($(shell test $(GCC_VERSION) -lt 42 && echo 1), 1)
 		MACHINE_CFLAGS := $(filter-out -march% -mtune% -msse%,$(MACHINE_CFLAGS))
 	endif
-
-	# Disable thunderx PMD for gcc < 4.7
-	ifeq ($(shell test $(GCC_VERSION) -lt 47 && echo 1), 1)
-		CONFIG_RTE_LIBRTE_THUNDERX_NICVF_PMD=d
-	endif
-
-	# Disable OPDL PMD for gcc < 4.7
-	ifeq ($(shell test $(GCC_VERSION) -lt 47 && echo 1), 1)
-		CONFIG_RTE_LIBRTE_PMD_OPDL_EVENTDEV=d
-	endif
-
-	# Disable octeontx event PMD for gcc < 4.8.6
-	ifeq ($(shell test $(GCC_VERSION)$(GCC_PATCHLEVEL) -lt 486 && echo 1), 1)
-		CONFIG_RTE_LIBRTE_PMD_OCTEONTX_SSOVF=d
-		CONFIG_RTE_LIBRTE_OCTEONTX_MEMPOOL=d
-		CONFIG_RTE_LIBRTE_OCTEONTX_PMD=d
-	endif
-
 endif
