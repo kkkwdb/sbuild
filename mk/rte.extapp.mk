@@ -12,6 +12,7 @@ export NOT_FIRST_CALL
 
 all:
 	$(Q)mkdir -p $(RTE_OUTPUT)
+	$(Q)[ -e $(RTE_OUTPUT)/.config ] || [ ! -e config ] || cp config $(RTE_OUTPUT)/.config
 	$(Q)$(MAKE) -C $(RTE_OUTPUT) -f $(RTE_EXTMK) \
 		S=$(RTE_SRCDIR) O=$(RTE_OUTPUT) SRCDIR=$(RTE_SRCDIR)
 

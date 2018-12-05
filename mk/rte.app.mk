@@ -146,7 +146,8 @@ doclean:
 
 .PHONY: distclean
 distclean: clean
-	-$(Q)rm -f $(RTE_OUTPUT)/app/$(APP).map $(RTE_OUTPUT)/app/$(APP)
+	-$(Q)$(RM) -f $(RTE_OUTPUT)/app/$(APP).map $(RTE_OUTPUT)/app/$(APP)
+	-$(Q)$(RM) $(RTE_OUTPUT)/.config
 	-$(Q)rmdir $(RTE_OUTPUT)/app
 	-$(Q)rmdir $(RTE_OUTPUT)
 

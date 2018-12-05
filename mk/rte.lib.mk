@@ -142,12 +142,18 @@ endif
 #
 .PHONY: clean
 clean: _postclean
+	$(Q)$(RM) $(_BUILD_TARGETS) $(_INSTALL_TARGETS) $(_CLEAN_TARGETS)
 
 .PHONY: doclean
 doclean:
-	$(Q)rm -rf $(LIB) $(OBJS-all) $(DEPS-all) $(DEPSTMP-all) \
+	$(Q)$(RM) -r $(LIB) $(OBJS-all) $(DEPS-all) $(DEPSTMP-all) \
 	  $(CMDS-all) .$(LIB).cmd $(INSTALL-FILES-all) *.pmd.c *.pmd.o
-	$(Q)rm -f $(_BUILD_TARGETS) $(_INSTALL_TARGETS) $(_CLEAN_TARGETS)
+
+.PHONY: distclean
+distclean: clean
+	-$(Q)$(RM) -r $(RTE_OUTPUT)/lib
+	-$(Q)$(RM) $(RTE_OUTPUT)/.config
+	-$(Q)rmdir $(RTE_OUTPUT)
 
 include $(RTE_SDK)/mk/internal/rte.compile-post.mk
 include $(RTE_SDK)/mk/internal/rte.install-post.mk
