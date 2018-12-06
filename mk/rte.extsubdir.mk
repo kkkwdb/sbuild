@@ -15,7 +15,7 @@ ifeq ($(SRTE_DIR_ONE_PROJECT),1)
 	$(Q)$(MAKE) -C $(SRTE_OUTPUT) -f $(SRTE_EXTMK) \
 		S=$(SRTE_SRCDIR) O=$(SRTE_OUTPUT) SRCDIR=$(SRTE_SRCDIR) $@
 else
-	$(Q)$(MAKE) O=$(CURDIR) $@
+	$(Q)$(MAKE) -f $(SRTE_EXTMK) O=$(CURDIR) $@
 endif
 
 else
@@ -47,15 +47,15 @@ build: _postbuild
 OUTPUT=$(SRTE_SRCDIR)/$(@)/build
 MKGOALS=$(MAKECMDGOALS)
 ifeq ($(SRTE_DIR_ONE_PROJECT),1)
-OUTPUT=$(SRTE_OUTPUT)/$(@)
+OUTPUT=$(SRTE_OUTPUT)/$(@)/build
 MKGOALS=$(subst distclean,clean,$(MAKECMDGOALS))
 endif
 
 .PHONY: $(DIRS-y)
 $(DIRS-y):
 	@echo "== $@"
-	$(Q)mkdir -p $(SRTE_OUTPUT)/$(@)/build
-	$(Q)$(MAKE) -C $(SRTE_OUTPUT)/$(@)/build \
+	$(Q)mkdir -p $(OUTPUT)
+	$(Q)$(MAKE) -C $(OUTPUT) \
 		-f $(SRTE_SRCDIR)/$(@)/Makefile \
 		O=$(OUTPUT) \
 		S=$(SRTE_SRCDIR)/$(@) \
