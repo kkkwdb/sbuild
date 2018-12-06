@@ -9,21 +9,21 @@ NOT_FIRST_CALL = 1
 export NOT_FIRST_CALL
 
 all clean distclean:
-ifeq ($(RTE_DIR_ONE_PROJECT),1)
-	$(Q)mkdir -p $(RTE_OUTPUT)
-	$(Q)cd $(RTE_OUTPUT);mkdir -p $(DIRS-y)
-	$(Q)$(MAKE) -C $(RTE_OUTPUT) -f $(RTE_EXTMK) \
-		S=$(RTE_SRCDIR) O=$(RTE_OUTPUT) SRCDIR=$(RTE_SRCDIR) $@
+ifeq ($(SRTE_DIR_ONE_PROJECT),1)
+	$(Q)mkdir -p $(SRTE_OUTPUT)
+	$(Q)cd $(SRTE_OUTPUT);mkdir -p $(DIRS-y)
+	$(Q)$(MAKE) -C $(SRTE_OUTPUT) -f $(SRTE_EXTMK) \
+		S=$(SRTE_SRCDIR) O=$(SRTE_OUTPUT) SRCDIR=$(SRTE_SRCDIR) $@
 else
 	$(Q)$(MAKE) O=$(CURDIR) $@
 endif
 
 else
 
-include $(RTE_SDK)/mk/internal/rte.compile-pre.mk
-include $(RTE_SDK)/mk/internal/rte.install-pre.mk
-include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
-include $(RTE_SDK)/mk/internal/rte.build-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.install-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.build-pre.mk
 
 ALL_DEPDIRS := $(patsubst DEPDIRS-%,%,$(filter DEPDIRS-%,$(.VARIABLES)))
 
@@ -44,22 +44,22 @@ _postinstall: build
 .PHONY: build
 build: _postbuild
 
-OUTPUT=$(RTE_SRCDIR)/$(@)/build
+OUTPUT=$(SRTE_SRCDIR)/$(@)/build
 MKGOALS=$(MAKECMDGOALS)
-ifeq ($(RTE_DIR_ONE_PROJECT),1)
-OUTPUT=$(RTE_OUTPUT)/$(@)
+ifeq ($(SRTE_DIR_ONE_PROJECT),1)
+OUTPUT=$(SRTE_OUTPUT)/$(@)
 MKGOALS=$(subst distclean,clean,$(MAKECMDGOALS))
 endif
 
 .PHONY: $(DIRS-y)
 $(DIRS-y):
 	@echo "== $@"
-	$(Q)mkdir -p $(RTE_OUTPUT)/$(@)/build
-	$(Q)$(MAKE) -C $(RTE_OUTPUT)/$(@)/build \
-		-f $(RTE_SRCDIR)/$(@)/Makefile \
+	$(Q)mkdir -p $(SRTE_OUTPUT)/$(@)/build
+	$(Q)$(MAKE) -C $(SRTE_OUTPUT)/$(@)/build \
+		-f $(SRTE_SRCDIR)/$(@)/Makefile \
 		O=$(OUTPUT) \
-		S=$(RTE_SRCDIR)/$(@) \
-		SRCDIR=$(RTE_SRCDIR)/$(@) \
+		S=$(SRTE_SRCDIR)/$(@) \
+		SRCDIR=$(SRTE_SRCDIR)/$(@) \
 		$(filter-out $(DIRS-y),$(MKGOALS))
 
 .PHONY: clean
@@ -68,8 +68,8 @@ clean: _postclean
 
 .PHONY: distclean
 distclean: clean
-ifeq ($(RTE_DIR_ONE_PROJECT),1)
-	-@rm -rf $(RTE_OUTPUT)
+ifeq ($(SRTE_DIR_ONE_PROJECT),1)
+	-@rm -rf $(SRTE_OUTPUT)
 endif
 	@true
 
@@ -84,10 +84,10 @@ endef
 $(foreach dir,$(ALL_DEPDIRS),\
 	$(eval $(call depdirs_rule,$(dir))))
 
-include $(RTE_SDK)/mk/internal/rte.compile-post.mk
-include $(RTE_SDK)/mk/internal/rte.install-post.mk
-include $(RTE_SDK)/mk/internal/rte.clean-post.mk
-include $(RTE_SDK)/mk/internal/rte.build-post.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-post.mk
+include $(SRTE_SDK)/mk/internal/rte.install-post.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-post.mk
+include $(SRTE_SDK)/mk/internal/rte.build-post.mk
 
 .PHONY: FORCE
 FORCE:

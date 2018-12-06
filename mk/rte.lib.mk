@@ -1,27 +1,27 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright(c) 2010-2014 Intel Corporation
 
-include $(RTE_SDK)/mk/internal/rte.compile-pre.mk
-include $(RTE_SDK)/mk/internal/rte.install-pre.mk
-include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
-include $(RTE_SDK)/mk/internal/rte.build-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.install-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.build-pre.mk
 
 EXTLIB_BUILD ?= n
 
 # VPATH contains at least SRCDIR
 VPATH += $(SRCDIR)
 
-ifneq ($(CONFIG_RTE_MAJOR_ABI),)
+ifneq ($(CONFIG_SRTE_MAJOR_ABI),)
 ifneq ($(LIBABIVER),)
-LIBABIVER := $(CONFIG_RTE_MAJOR_ABI)
+LIBABIVER := $(CONFIG_SRTE_MAJOR_ABI)
 endif
 endif
 
-ifeq ($(CONFIG_RTE_BUILD_SHARED_LIB),y)
+ifeq ($(CONFIG_SRTE_BUILD_SHARED_LIB),y)
 LIB := $(patsubst %.a,%.so.$(LIBABIVER),$(LIB))
 ifeq ($(EXTLIB_BUILD),n)
-ifeq ($(CONFIG_RTE_MAJOR_ABI),)
-ifeq ($(CONFIG_RTE_NEXT_ABI),y)
+ifeq ($(CONFIG_SRTE_MAJOR_ABI),)
+ifeq ($(CONFIG_SRTE_NEXT_ABI),y)
 LIB := $(LIB).1
 endif
 endif
@@ -32,7 +32,7 @@ endif
 
 _BUILD = $(LIB)
 PREINSTALL = $(SYMLINK-FILES-y)
-_INSTALL = $(INSTALL-FILES-y) $(RTE_OUTPUT)/lib/$(LIB)
+_INSTALL = $(INSTALL-FILES-y) $(SRTE_OUTPUT)/lib/$(LIB)
 _CLEAN = doclean
 
 .PHONY: all
@@ -75,7 +75,7 @@ ifneq ($(CC_SUPPORTS_Z),false)
 NO_UNDEFINED := -z defs
 endif
 
-O_TO_S = $(LD) -L$(RTE_SDK_BIN)/lib $(_CPU_LDFLAGS) $(EXTRA_LDFLAGS) \
+O_TO_S = $(LD) -L$(SRTE_SDK_BIN)/lib $(_CPU_LDFLAGS) $(EXTRA_LDFLAGS) \
 	  -shared $(OBJS-y) $(NO_UNDEFINED) $(LDLIBS) -Wl,-soname,$(LIB) -o $(LIB)
 O_TO_S_STR = $(subst ','\'',$(O_TO_S)) #'# fix syntax highlight
 O_TO_S_DISP = $(if $(V),"$(O_TO_S_STR)","  LD $(@)")
@@ -89,7 +89,7 @@ O_TO_S_DO = @set -e; \
 #
 # Archive objects in .a file if needed
 #
-ifeq ($(CONFIG_RTE_BUILD_SHARED_LIB),y)
+ifeq ($(CONFIG_SRTE_BUILD_SHARED_LIB),y)
 $(LIB): $(OBJS-y) $(DEP_$(LIB)) FORCE
 ifeq ($(LIBABIVER),)
 	@echo "Must Specify a $(LIB) ABI version"
@@ -127,13 +127,13 @@ $(LIB): $(OBJS-y) $(DEP_$(LIB)) FORCE
 endif
 
 #
-# install lib in $(RTE_OUTPUT)/lib
+# install lib in $(SRTE_OUTPUT)/lib
 #
-$(RTE_OUTPUT)/lib/$(LIB): $(LIB)
+$(SRTE_OUTPUT)/lib/$(LIB): $(LIB)
 	@echo "  INSTALL-LIB $(LIB)"
-	@[ -d $(RTE_OUTPUT)/lib ] || mkdir -p $(RTE_OUTPUT)/lib
-	$(Q)cp -f $(LIB) $(RTE_OUTPUT)/lib
-ifeq ($(CONFIG_RTE_BUILD_SHARED_LIB),y)
+	@[ -d $(SRTE_OUTPUT)/lib ] || mkdir -p $(SRTE_OUTPUT)/lib
+	$(Q)cp -f $(LIB) $(SRTE_OUTPUT)/lib
+ifeq ($(CONFIG_SRTE_BUILD_SHARED_LIB),y)
 	$(Q)ln -s -f $< $(shell echo $@ | sed 's/\.so.*/.so/')
 endif
 
@@ -151,14 +151,14 @@ doclean:
 
 .PHONY: distclean
 distclean: clean
-	-$(Q)$(RM) -r $(RTE_OUTPUT)/lib
-	-$(Q)$(RM) $(RTE_OUTPUT)/.config
-	-$(Q)rmdir $(RTE_OUTPUT)
+	-$(Q)$(RM) -r $(SRTE_OUTPUT)/lib
+	-$(Q)$(RM) $(SRTE_OUTPUT)/.config
+	-$(Q)rmdir $(SRTE_OUTPUT)
 
-include $(RTE_SDK)/mk/internal/rte.compile-post.mk
-include $(RTE_SDK)/mk/internal/rte.install-post.mk
-include $(RTE_SDK)/mk/internal/rte.clean-post.mk
-include $(RTE_SDK)/mk/internal/rte.build-post.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-post.mk
+include $(SRTE_SDK)/mk/internal/rte.install-post.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-post.mk
+include $(SRTE_SDK)/mk/internal/rte.build-post.mk
 
 .PHONY: FORCE
 FORCE:

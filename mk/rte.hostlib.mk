@@ -3,16 +3,16 @@
 
 # tell rte.compile-pre.mk to use HOSTCC instead of CC
 USE_HOST := 1
-include $(RTE_SDK)/mk/internal/rte.compile-pre.mk
-include $(RTE_SDK)/mk/internal/rte.install-pre.mk
-include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
-include $(RTE_SDK)/mk/internal/rte.build-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.install-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.build-pre.mk
 
 # VPATH contains at least SRCDIR
 VPATH += $(SRCDIR)
 
 _BUILD = $(HOSTLIB)
-_INSTALL = $(INSTALL-FILES-y) $(SYMLINK-FILES-y) $(RTE_OUTPUT)/hostlib/$(HOSTLIB)
+_INSTALL = $(INSTALL-FILES-y) $(SYMLINK-FILES-y) $(SRTE_OUTPUT)/hostlib/$(HOSTLIB)
 _CLEAN = doclean
 
 .PHONY: all
@@ -58,12 +58,12 @@ $(HOSTLIB): $(OBJS-y) FORCE
 		$(O_TO_A_DO))
 
 #
-# install lib in $(RTE_OUTPUT)/hostlib
+# install lib in $(SRTE_OUTPUT)/hostlib
 #
-$(RTE_OUTPUT)/hostlib/$(HOSTLIB): $(HOSTLIB)
+$(SRTE_OUTPUT)/hostlib/$(HOSTLIB): $(HOSTLIB)
 	@echo "  INSTALL-HOSTLIB $(HOSTLIB)"
-	@[ -d $(RTE_OUTPUT)/hostlib ] || mkdir -p $(RTE_OUTPUT)/hostlib
-	$(Q)cp -f $(HOSTLIB) $(RTE_OUTPUT)/hostlib
+	@[ -d $(SRTE_OUTPUT)/hostlib ] || mkdir -p $(SRTE_OUTPUT)/hostlib
+	$(Q)cp -f $(HOSTLIB) $(SRTE_OUTPUT)/hostlib
 
 #
 # Clean all generated files
@@ -77,10 +77,10 @@ doclean:
 	  $(CMDS-all) $(INSTALL-FILES-all)
 	$(Q)rm -f $(_BUILD_TARGETS) $(_INSTALL_TARGETS) $(_CLEAN_TARGETS)
 
-include $(RTE_SDK)/mk/internal/rte.compile-post.mk
-include $(RTE_SDK)/mk/internal/rte.install-post.mk
-include $(RTE_SDK)/mk/internal/rte.clean-post.mk
-include $(RTE_SDK)/mk/internal/rte.build-post.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-post.mk
+include $(SRTE_SDK)/mk/internal/rte.install-post.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-post.mk
+include $(SRTE_SDK)/mk/internal/rte.build-post.mk
 
 .PHONY: FORCE
 FORCE:

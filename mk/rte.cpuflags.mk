@@ -2,7 +2,7 @@
 # Copyright(c) 2010-2014 Intel Corporation
 
 # this makefile is called from the generic rte.vars.mk and is
-# used to set the RTE_CPUFLAG_* environment variables giving details
+# used to set the SRTE_CPUFLAG_* environment variables giving details
 # of what instruction sets the target cpu supports.
 
 AUTO_CPUFLAGS := $(shell $(CC) $(MACHINE_CFLAGS) $(WERROR_FLAGS) $(EXTRA_CFLAGS) -dM -E - < /dev/null)
@@ -42,7 +42,7 @@ CPUFLAGS += PCLMULQDQ
 endif
 
 ifneq ($(filter $(AUTO_CPUFLAGS),__AVX__),)
-ifeq ($(CONFIG_RTE_ENABLE_AVX),y)
+ifeq ($(CONFIG_SRTE_ENABLE_AVX),y)
 CPUFLAGS += AVX
 endif
 endif
@@ -60,13 +60,13 @@ CPUFLAGS += F16C
 endif
 
 ifneq ($(filter $(AUTO_CPUFLAGS),__AVX2__),)
-ifeq ($(CONFIG_RTE_ENABLE_AVX),y)
+ifeq ($(CONFIG_SRTE_ENABLE_AVX),y)
 CPUFLAGS += AVX2
 endif
 endif
 
 ifneq ($(filter $(AUTO_CPUFLAGS),__AVX512F__),)
-ifeq ($(CONFIG_RTE_ENABLE_AVX512),y)
+ifeq ($(CONFIG_SRTE_ENABLE_AVX512),y)
 CPUFLAGS += AVX512F
 endif
 endif
@@ -104,12 +104,12 @@ CPUFLAGS += SHA1
 CPUFLAGS += SHA2
 endif
 
-MACHINE_CFLAGS += $(addprefix -DRTE_MACHINE_CPUFLAG_,$(CPUFLAGS))
+MACHINE_CFLAGS += $(addprefix -DSRTE_MACHINE_CPUFLAG_,$(CPUFLAGS))
 
 # To strip whitespace
 comma:= ,
 empty:=
 space:= $(empty) $(empty)
-CPUFLAGSTMP1 := $(addprefix RTE_CPUFLAG_,$(CPUFLAGS))
+CPUFLAGSTMP1 := $(addprefix SRTE_CPUFLAG_,$(CPUFLAGS))
 CPUFLAGSTMP2 := $(subst $(space),$(comma),$(CPUFLAGSTMP1))
-CPUFLAGS_LIST := -DRTE_COMPILE_TIME_CPUFLAGS=$(CPUFLAGSTMP2)
+CPUFLAGS_LIST := -DSRTE_COMPILE_TIME_CPUFLAGS=$(CPUFLAGSTMP2)

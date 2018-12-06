@@ -8,11 +8,11 @@
 # application if any.
 #
 
-ifeq ($(RTE_SDK),)
-$(error RTE_SDK is not defined)
+ifeq ($(SRTE_SDK),)
+$(error SRTE_SDK is not defined)
 endif
-ifeq ($(wildcard $(RTE_SDK)),)
-$(error RTE_SDK variable points to an invalid location)
+ifeq ($(wildcard $(SRTE_SDK)),)
+$(error SRTE_SDK variable points to an invalid location)
 endif
 
 # define Q to '@' or not. $(Q) is used to prefix all shell commands to
@@ -29,59 +29,59 @@ endif
 export Q
 
 # if we are building SDK, only includes SDK configuration
-ifneq ($(BUILDING_RTE_SDK),)
-  include $(RTE_OUTPUT)/.config
+ifneq ($(BUILDING_SRTE_SDK),)
+  include $(SRTE_OUTPUT)/.config
   # remove double-quotes from config names
-  RTE_ARCH := $(CONFIG_RTE_ARCH:"%"=%)
-  RTE_MACHINE := $(CONFIG_RTE_MACHINE:"%"=%)
-  RTE_EXEC_ENV := $(CONFIG_RTE_EXEC_ENV:"%"=%)
-  RTE_TOOLCHAIN := $(CONFIG_RTE_TOOLCHAIN:"%"=%)
-  RTE_SDK_BIN := $(RTE_OUTPUT)
+  SRTE_ARCH := $(CONFIG_SRTE_ARCH:"%"=%)
+  SRTE_MACHINE := $(CONFIG_SRTE_MACHINE:"%"=%)
+  SRTE_EXEC_ENV := $(CONFIG_SRTE_EXEC_ENV:"%"=%)
+  SRTE_TOOLCHAIN := $(CONFIG_SRTE_TOOLCHAIN:"%"=%)
+  SRTE_SDK_BIN := $(SRTE_OUTPUT)
 endif
 
-RTE_TARGET ?= $(RTE_ARCH)-$(RTE_MACHINE)-$(RTE_EXEC_ENV)-$(RTE_TOOLCHAIN)
+SRTE_TARGET ?= $(SRTE_ARCH)-$(SRTE_MACHINE)-$(SRTE_EXEC_ENV)-$(SRTE_TOOLCHAIN)
 
-ifeq ($(BUILDING_RTE_SDK),)
+ifeq ($(BUILDING_SRTE_SDK),)
 # if we are building an external app/lib, include internal/rte.extvars.mk that will
-# define RTE_OUTPUT, RTE_SRCDIR, RTE_EXTMK, RTE_SDK_BIN, (etc ...)
-include $(RTE_SDK)/mk/internal/rte.extvars.mk
+# define SRTE_OUTPUT, SRTE_SRCDIR, SRTE_EXTMK, SRTE_SDK_BIN, (etc ...)
+include $(SRTE_SDK)/mk/internal/rte.extvars.mk
 endif
 
-ifeq ($(RTE_ARCH),)
-$(error RTE_ARCH is not defined)
+ifeq ($(SRTE_ARCH),)
+$(error SRTE_ARCH is not defined)
 endif
 
-ifeq ($(RTE_MACHINE),)
-$(error RTE_MACHINE is not defined)
+ifeq ($(SRTE_MACHINE),)
+$(error SRTE_MACHINE is not defined)
 endif
 
-ifeq ($(RTE_EXEC_ENV),)
-$(error RTE_EXEC_ENV is not defined)
+ifeq ($(SRTE_EXEC_ENV),)
+$(error SRTE_EXEC_ENV is not defined)
 endif
 
-ifeq ($(RTE_TOOLCHAIN),)
-$(error RTE_TOOLCHAIN is not defined)
+ifeq ($(SRTE_TOOLCHAIN),)
+$(error SRTE_TOOLCHAIN is not defined)
 endif
 
 # can be overridden by make command line or exported environment variable
-RTE_KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+SRTE_KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 
-export RTE_TARGET
-export RTE_ARCH
-export RTE_MACHINE
-export RTE_EXEC_ENV
-export RTE_TOOLCHAIN
+export SRTE_TARGET
+export SRTE_ARCH
+export SRTE_MACHINE
+export SRTE_EXEC_ENV
+export SRTE_TOOLCHAIN
 
 # developer build automatically enabled in a git tree
-ifneq ($(wildcard $(RTE_SDK)/.git),)
-RTE_DEVEL_BUILD ?= y
+ifneq ($(wildcard $(SRTE_SDK)/.git),)
+SRTE_DEVEL_BUILD ?= y
 endif
 
 # SRCDIR is the current source directory
 ifdef S
-SRCDIR := $(abspath $(RTE_SRCDIR)/$(S))
+SRCDIR := $(abspath $(SRTE_SRCDIR)/$(S))
 else
-SRCDIR := $(RTE_SRCDIR)
+SRCDIR := $(SRTE_SRCDIR)
 endif
 
 # helper: return y if option is set to y, else return an empty string
@@ -90,8 +90,8 @@ testopt = $(if $(strip $(subst y,,$(1)) $(subst $(1),,y)),,y)
 # helper: return an empty string if option is set, else return y
 not = $(if $(strip $(subst y,,$(1)) $(subst $(1),,y)),,y)
 
-ifneq ($(wildcard $(RTE_SDK)/mk/target/$(RTE_TARGET)/rte.vars.mk),)
-include $(RTE_SDK)/mk/target/$(RTE_TARGET)/rte.vars.mk
+ifneq ($(wildcard $(SRTE_SDK)/mk/target/$(SRTE_TARGET)/rte.vars.mk),)
+include $(SRTE_SDK)/mk/target/$(SRTE_TARGET)/rte.vars.mk
 else
-include $(RTE_SDK)/mk/target/generic/rte.vars.mk
+include $(SRTE_SDK)/mk/target/generic/rte.vars.mk
 endif

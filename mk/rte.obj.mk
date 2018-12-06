@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright(c) 2010-2014 Intel Corporation
 
-include $(RTE_SDK)/mk/internal/rte.compile-pre.mk
-include $(RTE_SDK)/mk/internal/rte.install-pre.mk
-include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
-include $(RTE_SDK)/mk/internal/rte.build-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.install-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.build-pre.mk
 
 # VPATH contains at least SRCDIR
 VPATH += $(SRCDIR)
@@ -75,12 +75,12 @@ doclean:
 
 .PHONY: distclean
 distclean: clean
-	$(Q)$(RM) -r $(RTE_OUTPUT)
+	$(Q)$(RM) -r $(SRTE_OUTPUT)
 
-include $(RTE_SDK)/mk/internal/rte.compile-post.mk
-include $(RTE_SDK)/mk/internal/rte.install-post.mk
-include $(RTE_SDK)/mk/internal/rte.clean-post.mk
-include $(RTE_SDK)/mk/internal/rte.build-post.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-post.mk
+include $(SRTE_SDK)/mk/internal/rte.install-post.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-post.mk
+include $(SRTE_SDK)/mk/internal/rte.build-post.mk
 
 .PHONY: FORCE
 FORCE:

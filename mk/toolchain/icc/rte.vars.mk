@@ -47,12 +47,12 @@ WERROR_FLAGS += -diag-disable 13368 -diag-disable 15527
 WERROR_FLAGS += -diag-disable 188
 WERROR_FLAGS += -diag-disable 11074 -diag-disable 11076 -Wdeprecated
 
-ifeq ($(RTE_DEVEL_BUILD),y)
+ifeq ($(SRTE_DEVEL_BUILD),y)
 WERROR_FLAGS += -Werror-all
 endif
 
 # process cpu flags
-include $(RTE_SDK)/mk/toolchain/$(RTE_TOOLCHAIN)/rte.toolchain-compat.mk
+include $(SRTE_SDK)/mk/toolchain/$(SRTE_TOOLCHAIN)/rte.toolchain-compat.mk
 
 export CC AS AR LD OBJCOPY OBJDUMP STRIP READELF
 export TOOLCHAIN_CFLAGS TOOLCHAIN_LDFLAGS TOOLCHAIN_ASFLAGS

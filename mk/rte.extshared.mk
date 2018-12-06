@@ -11,16 +11,16 @@ NOT_FIRST_CALL = 1
 export NOT_FIRST_CALL
 
 all:
-	$(Q)mkdir -p $(RTE_OUTPUT)
-	$(Q)$(MAKE) -C $(RTE_OUTPUT) -f $(RTE_EXTMK) \
-		S=$(RTE_SRCDIR) O=$(RTE_OUTPUT) SRCDIR=$(RTE_SRCDIR)
-	@echo $(RTE_OUTPUT)/lib must be added to /etc/ld.so.conf or \
+	$(Q)mkdir -p $(SRTE_OUTPUT)
+	$(Q)$(MAKE) -C $(SRTE_OUTPUT) -f $(SRTE_EXTMK) \
+		S=$(SRTE_SRCDIR) O=$(SRTE_OUTPUT) SRCDIR=$(SRTE_SRCDIR)
+	@echo $(SRTE_OUTPUT)/lib must be added to /etc/ld.so.conf or \
 		LD_LIBRARY_PATH variable to allow binary to link with dynamic library
 
 %::
-	$(Q)mkdir -p $(RTE_OUTPUT)
-	$(Q)$(MAKE) -C $(RTE_OUTPUT) -f $(RTE_EXTMK) $@ \
-		S=$(RTE_SRCDIR) O=$(RTE_OUTPUT) SRCDIR=$(RTE_SRCDIR)
+	$(Q)mkdir -p $(SRTE_OUTPUT)
+	$(Q)$(MAKE) -C $(SRTE_OUTPUT) -f $(SRTE_EXTMK) $@ \
+		S=$(SRTE_SRCDIR) O=$(SRTE_OUTPUT) SRCDIR=$(SRTE_SRCDIR)
 else
-include $(RTE_SDK)/mk/rte.shared.mk
+include $(SRTE_SDK)/mk/rte.shared.mk
 endif

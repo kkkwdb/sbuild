@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright 2012-2013 6WIND S.A.
 
-include $(RTE_SDK)/mk/internal/rte.compile-pre.mk
-include $(RTE_SDK)/mk/internal/rte.install-pre.mk
-include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
-include $(RTE_SDK)/mk/internal/rte.build-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.install-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.build-pre.mk
 
 # VPATH contains at least SRCDIR
 VPATH += $(SRCDIR)
 
 _BUILD = $(SHARED)
-_INSTALL = $(INSTALL-FILES-y) $(SYMLINK-FILES-y) $(RTE_OUTPUT)/lib/$(SHARED)
+_INSTALL = $(INSTALL-FILES-y) $(SYMLINK-FILES-y) $(SRTE_OUTPUT)/lib/$(SHARED)
 _CLEAN = doclean
 
 # Set fPIC in CFLAGS for .so generation
@@ -80,12 +80,12 @@ $(SHARED): $(OBJS-y) $(LDLIBS_FILES) $(DEP_$(SHARED)) FORCE
 		$(O_TO_SO_DO))
 
 #
-# install lib in $(RTE_OUTPUT)/lib
+# install lib in $(SRTE_OUTPUT)/lib
 #
-$(RTE_OUTPUT)/lib/$(SHARED): $(SHARED)
+$(SRTE_OUTPUT)/lib/$(SHARED): $(SHARED)
 	@echo "  INSTALL-SHARED $(SHARED)"
-	@[ -d $(RTE_OUTPUT)/lib ] || mkdir -p $(RTE_OUTPUT)/lib
-	$(Q)cp -f $(SHARED) $(RTE_OUTPUT)/lib
+	@[ -d $(SRTE_OUTPUT)/lib ] || mkdir -p $(SRTE_OUTPUT)/lib
+	$(Q)cp -f $(SHARED) $(SRTE_OUTPUT)/lib
 
 #
 # Clean all generated files
@@ -99,10 +99,10 @@ doclean:
 	  $(CMDS-all) $(INSTALL-FILES-all)
 	$(Q)rm -f $(_BUILD_TARGETS) $(_INSTALL_TARGETS) $(_CLEAN_TARGETS)
 
-include $(RTE_SDK)/mk/internal/rte.compile-post.mk
-include $(RTE_SDK)/mk/internal/rte.install-post.mk
-include $(RTE_SDK)/mk/internal/rte.clean-post.mk
-include $(RTE_SDK)/mk/internal/rte.build-post.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-post.mk
+include $(SRTE_SDK)/mk/internal/rte.install-post.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-post.mk
+include $(SRTE_SDK)/mk/internal/rte.build-post.mk
 
 .PHONY: FORCE
 FORCE:

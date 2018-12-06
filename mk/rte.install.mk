@@ -3,8 +3,8 @@
 
 # install-only makefile (no build target)
 
-include $(RTE_SDK)/mk/internal/rte.install-pre.mk
-include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.install-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-pre.mk
 
 # VPATH contains at least SRCDIR
 VPATH += $(SRCDIR)
@@ -24,5 +24,5 @@ doclean:
 	@rm -rf $(INSTALL-FILES-all)
 	@rm -f $(_INSTALL_TARGETS) $(_CLEAN_TARGETS)
 
-include $(RTE_SDK)/mk/internal/rte.install-post.mk
-include $(RTE_SDK)/mk/internal/rte.clean-post.mk
+include $(SRTE_SDK)/mk/internal/rte.install-post.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-post.mk

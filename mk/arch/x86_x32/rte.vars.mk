@@ -16,7 +16,7 @@
 #     define in machine .mk)
 #   - may override any previously defined variable
 #
-# examples for CONFIG_RTE_ARCH: i686, x86_64, x86_64_32
+# examples for CONFIG_SRTE_ARCH: i686, x86_64, x86_64_32
 #
 
 ARCH  ?= x86_64
@@ -34,7 +34,7 @@ endif
 
 export ARCH CROSS CPU_CFLAGS CPU_LDFLAGS CPU_ASFLAGS
 
-RTE_OBJCOPY_TARGET = elf32-x86-64
-RTE_OBJCOPY_ARCH = i386:x86-64
+SRTE_OBJCOPY_TARGET = elf32-x86-64
+SRTE_OBJCOPY_ARCH = i386:x86-64
 
-export RTE_OBJCOPY_TARGET RTE_OBJCOPY_ARCH
+export SRTE_OBJCOPY_TARGET SRTE_OBJCOPY_ARCH

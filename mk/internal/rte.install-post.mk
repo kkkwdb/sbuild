@@ -4,16 +4,16 @@
 # install helper .mk
 
 #
-# generate rules to install files in RTE_OUTPUT.
+# generate rules to install files in SRTE_OUTPUT.
 #
-# arg1: relative install dir in RTE_OUTPUT
+# arg1: relative install dir in SRTE_OUTPUT
 # arg2: relative file name in a source dir (VPATH)
 #
 define install_rule
-$(addprefix $(RTE_OUTPUT)/$(1)/,$(notdir $(2))): $(2)
+$(addprefix $(SRTE_OUTPUT)/$(1)/,$(notdir $(2))): $(2)
 	@echo "  INSTALL-FILE $(addprefix $(1)/,$(notdir $(2)))"
-	@[ -d $(RTE_OUTPUT)/$(1) ] || mkdir -p $(RTE_OUTPUT)/$(1)
-	$(Q)cp -rf $$(<) $(RTE_OUTPUT)/$(1)
+	@[ -d $(SRTE_OUTPUT)/$(1) ] || mkdir -p $(SRTE_OUTPUT)/$(1)
+	$(Q)cp -rf $$(<) $(SRTE_OUTPUT)/$(1)
 endef
 
 $(foreach dir,$(INSTALL-DIRS-y),\
@@ -22,17 +22,17 @@ $(foreach dir,$(INSTALL-DIRS-y),\
 
 
 #
-# generate rules to install symbolic links of files in RTE_OUTPUT.
+# generate rules to install symbolic links of files in SRTE_OUTPUT.
 #
-# arg1: relative install dir in RTE_OUTPUT
+# arg1: relative install dir in SRTE_OUTPUT
 # arg2: relative file name in a source dir (VPATH)
 #
 define symlink_rule
-$(addprefix $(RTE_OUTPUT)/$(1)/,$(notdir $(2))): $(2)
+$(addprefix $(SRTE_OUTPUT)/$(1)/,$(notdir $(2))): $(2)
 	@echo "  SYMLINK-FILE $(addprefix $(1)/,$(notdir $(2)))"
-	@[ -d $(RTE_OUTPUT)/$(1) ] || mkdir -p $(RTE_OUTPUT)/$(1)
-	$(Q)ln -nsf `$(RTE_SDK)/buildtools/relpath.sh $$(<) $(RTE_OUTPUT)/$(1)` \
-		$(RTE_OUTPUT)/$(1)
+	@[ -d $(SRTE_OUTPUT)/$(1) ] || mkdir -p $(SRTE_OUTPUT)/$(1)
+	$(Q)ln -nsf `$(SRTE_SDK)/buildtools/relpath.sh $$(<) $(SRTE_OUTPUT)/$(1)` \
+		$(SRTE_OUTPUT)/$(1)
 endef
 
 $(foreach dir,$(SYMLINK-DIRS-y),\

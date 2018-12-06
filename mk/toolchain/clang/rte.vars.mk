@@ -41,12 +41,12 @@ WERROR_FLAGS += -Wnested-externs -Wcast-qual
 WERROR_FLAGS += -Wformat-nonliteral -Wformat-security
 WERROR_FLAGS += -Wundef -Wwrite-strings -Wdeprecated
 
-ifeq ($(RTE_DEVEL_BUILD),y)
+ifeq ($(SRTE_DEVEL_BUILD),y)
 WERROR_FLAGS += -Werror
 endif
 
 # process cpu flags
-include $(RTE_SDK)/mk/toolchain/$(RTE_TOOLCHAIN)/rte.toolchain-compat.mk
+include $(SRTE_SDK)/mk/toolchain/$(SRTE_TOOLCHAIN)/rte.toolchain-compat.mk
 
 # workaround clang bug with warning "missing field initializer" for "= {0}"
 WERROR_FLAGS += -Wno-missing-field-initializers

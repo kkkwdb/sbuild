@@ -3,16 +3,16 @@
 
 # tell rte.compile-pre.mk to use HOSTCC instead of CC
 USE_HOST := 1
-include $(RTE_SDK)/mk/internal/rte.compile-pre.mk
-include $(RTE_SDK)/mk/internal/rte.install-pre.mk
-include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
-include $(RTE_SDK)/mk/internal/rte.build-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.install-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.build-pre.mk
 
 # VPATH contains at least SRCDIR
 VPATH += $(SRCDIR)
 
 _BUILD = $(HOSTAPP)
-_INSTALL = $(INSTALL-FILES-y) $(SYMLINK-FILES-y) $(RTE_OUTPUT)/app/$(HOSTAPP)
+_INSTALL = $(INSTALL-FILES-y) $(SYMLINK-FILES-y) $(SRTE_OUTPUT)/app/$(HOSTAPP)
 _CLEAN = doclean
 
 .PHONY: all
@@ -42,7 +42,7 @@ O_TO_EXE_DO = @set -e; \
 
 # list of .a files that are linked to this application
 LDLIBS_FILES := $(sort $(wildcard \
-	$(addprefix $(RTE_OUTPUT)/lib/, \
+	$(addprefix $(SRTE_OUTPUT)/lib/, \
 	$(patsubst -l%,lib%.a,$(filter -l%,$(LDLIBS))))))
 
 #
@@ -64,12 +64,12 @@ $(HOSTAPP): $(OBJS-y) $(LDLIBS_FILES) FORCE
 		$(O_TO_EXE_DO))
 
 #
-# install app in $(RTE_OUTPUT)/hostapp
+# install app in $(SRTE_OUTPUT)/hostapp
 #
-$(RTE_OUTPUT)/app/$(HOSTAPP): $(HOSTAPP)
+$(SRTE_OUTPUT)/app/$(HOSTAPP): $(HOSTAPP)
 	@echo "  INSTALL-HOSTAPP $(HOSTAPP)"
-	@[ -d $(RTE_OUTPUT)/app ] || mkdir -p $(RTE_OUTPUT)/app
-	$(Q)cp -f $(HOSTAPP) $(RTE_OUTPUT)/app
+	@[ -d $(SRTE_OUTPUT)/app ] || mkdir -p $(SRTE_OUTPUT)/app
+	$(Q)cp -f $(HOSTAPP) $(SRTE_OUTPUT)/app
 
 #
 # Clean all generated files
@@ -84,10 +84,10 @@ doclean:
 	  $(CMDS-all) $(INSTALL-FILES-all) .$(HOSTAPP).cmd
 
 
-include $(RTE_SDK)/mk/internal/rte.compile-post.mk
-include $(RTE_SDK)/mk/internal/rte.install-post.mk
-include $(RTE_SDK)/mk/internal/rte.clean-post.mk
-include $(RTE_SDK)/mk/internal/rte.build-post.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-post.mk
+include $(SRTE_SDK)/mk/internal/rte.install-post.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-post.mk
+include $(SRTE_SDK)/mk/internal/rte.build-post.mk
 
 .PHONY: FORCE
 FORCE:

@@ -22,10 +22,10 @@
 #   - can define CPU_ASFLAGS variable (overridden by cmdline value) that
 #     overrides the one defined in arch.
 #
-ifneq ($(wildcard $(RTE_SDK)/mk/machine/$(RTE_MACHINE)/rte.vars.mk),)
-include $(RTE_SDK)/mk/machine/$(RTE_MACHINE)/rte.vars.mk
+ifneq ($(wildcard $(SRTE_SDK)/mk/machine/$(SRTE_MACHINE)/rte.vars.mk),)
+include $(SRTE_SDK)/mk/machine/$(SRTE_MACHINE)/rte.vars.mk
 else
-MACHINE_CFLAGS := -march=$(RTE_MACHINE)
+MACHINE_CFLAGS := -march=$(SRTE_MACHINE)
 endif
 
 #
@@ -43,7 +43,7 @@ endif
 #     define in machine .mk)
 #   - may override any previously defined variable
 #
-include $(RTE_SDK)/mk/arch/$(RTE_ARCH)/rte.vars.mk
+include $(SRTE_SDK)/mk/arch/$(SRTE_ARCH)/rte.vars.mk
 
 #
 # toolchain:
@@ -54,7 +54,7 @@ include $(RTE_SDK)/mk/arch/$(RTE_ARCH)/rte.vars.mk
 #   - define TOOLCHAIN_ASFLAGS variable (overridden by cmdline value)
 #   - may override any previously defined variable
 #
-include $(RTE_SDK)/mk/toolchain/$(RTE_TOOLCHAIN)/rte.vars.mk
+include $(SRTE_SDK)/mk/toolchain/$(SRTE_TOOLCHAIN)/rte.vars.mk
 
 #
 # exec-env:
@@ -64,7 +64,7 @@ include $(RTE_SDK)/mk/toolchain/$(RTE_TOOLCHAIN)/rte.vars.mk
 #   - define EXECENV_ASFLAGS variable (overridden by cmdline)
 #   - may override any previously defined variable
 #
-include $(RTE_SDK)/mk/exec-env/$(RTE_EXEC_ENV)/rte.vars.mk
+include $(SRTE_SDK)/mk/exec-env/$(SRTE_EXEC_ENV)/rte.vars.mk
 
 # Don't set CFLAGS/LDFLAGS flags for kernel module, all flags are
 # provided by Kbuild framework.
@@ -72,7 +72,7 @@ ifeq ($(KERNELRELEASE),)
 
 # now that the environment is mostly set up, including the machine type we will
 # be passing to the compiler, set up the specific CPU flags based on that info.
-include $(RTE_SDK)/mk/rte.cpuflags.mk
+include $(SRTE_SDK)/mk/rte.cpuflags.mk
 
 # merge all CFLAGS
 CFLAGS := $(CPU_CFLAGS) $(EXECENV_CFLAGS) $(TOOLCHAIN_CFLAGS) $(MACHINE_CFLAGS)
@@ -87,11 +87,11 @@ ASFLAGS := $(CPU_ASFLAGS) $(EXECENV_ASFLAGS) $(TOOLCHAIN_ASFLAGS) $(MACHINE_ASFL
 ASFLAGS += $(TARGET_ASFLAGS)
 
 # add default include and lib paths
-CFLAGS += -I$(RTE_OUTPUT)/include
-LDFLAGS += -L$(RTE_OUTPUT)/lib
+CFLAGS += -I$(SRTE_OUTPUT)/include
+LDFLAGS += -L$(SRTE_OUTPUT)/lib
 
-CFLAGS += -I$(RTE_SDK_BIN)/include
-LDFLAGS += -L$(RTE_SDK_BIN)/lib
+CFLAGS += -I$(SRTE_SDK_BIN)/include
+LDFLAGS += -L$(SRTE_SDK_BIN)/lib
 
 export CFLAGS
 export LDFLAGS

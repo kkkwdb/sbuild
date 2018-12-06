@@ -9,9 +9,9 @@
 #   - define EXECENV_ASFLAGS variable (overridden by cmdline)
 #   - may override any previously defined variable
 #
-# examples for RTE_EXEC_ENV: linuxapp, bsdapp
+# examples for SRTE_EXEC_ENV: linuxapp, bsdapp
 #
-ifeq ($(CONFIG_RTE_BUILD_SHARED_LIB),y)
+ifeq ($(CONFIG_SRTE_BUILD_SHARED_LIB),y)
 EXECENV_CFLAGS  = -pthread -fPIC
 else
 EXECENV_CFLAGS  = -pthread
@@ -21,7 +21,7 @@ EXECENV_LDFLAGS =
 EXECENV_LDLIBS  = -lexecinfo
 EXECENV_ASFLAGS =
 
-ifeq ($(CONFIG_RTE_BUILD_SHARED_LIB),y)
+ifeq ($(CONFIG_SRTE_BUILD_SHARED_LIB),y)
 EXECENV_LDLIBS += -lgcc_s
 endif
 

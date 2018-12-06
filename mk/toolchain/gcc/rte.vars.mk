@@ -35,7 +35,7 @@ TOOLCHAIN_ASFLAGS =
 TOOLCHAIN_CFLAGS =
 TOOLCHAIN_LDFLAGS =
 
-ifeq ($(CONFIG_RTE_LIBRTE_GCOV),y)
+ifeq ($(CONFIG_SRTE_LIBSRTE_GCOV),y)
 TOOLCHAIN_CFLAGS += --coverage
 TOOLCHAIN_LDFLAGS += --coverage
 ifeq (,$(findstring -O0,$(EXTRA_CFLAGS)))
@@ -49,18 +49,18 @@ WERROR_FLAGS += -Wcast-align -Wnested-externs -Wcast-qual
 WERROR_FLAGS += -Wformat-nonliteral -Wformat-security
 WERROR_FLAGS += -Wundef -Wwrite-strings -Wdeprecated
 
-ifeq ($(RTE_DEVEL_BUILD),y)
+ifeq ($(SRTE_DEVEL_BUILD),y)
 WERROR_FLAGS += -Werror
 endif
 
 # There are many issues reported for strict alignment architectures
 # which are not necessarily fatal. Report as warnings.
-ifeq ($(CONFIG_RTE_ARCH_STRICT_ALIGN),y)
+ifeq ($(CONFIG_SRTE_ARCH_STRICT_ALIGN),y)
 WERROR_FLAGS += -Wno-error=cast-align
 endif
 
 # process cpu flags
-include $(RTE_SDK)/mk/toolchain/$(RTE_TOOLCHAIN)/rte.toolchain-compat.mk
+include $(SRTE_SDK)/mk/toolchain/$(SRTE_TOOLCHAIN)/rte.toolchain-compat.mk
 
 # workaround GCC bug with warning "missing initializer" for "= {0}"
 ifeq ($(shell test $(GCC_VERSION) -lt 47 && echo 1), 1)

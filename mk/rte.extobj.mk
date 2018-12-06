@@ -11,14 +11,14 @@ NOT_FIRST_CALL = 1
 export NOT_FIRST_CALL
 
 all:
-	$(Q)mkdir -p $(RTE_OUTPUT)
-	$(Q)$(MAKE) -C $(RTE_OUTPUT) -f $(RTE_EXTMK) \
-		S=$(RTE_SRCDIR) O=$(RTE_OUTPUT) SRCDIR=$(RTE_SRCDIR)
+	$(Q)mkdir -p $(SRTE_OUTPUT)
+	$(Q)$(MAKE) -C $(SRTE_OUTPUT) -f $(SRTE_EXTMK) \
+		S=$(SRTE_SRCDIR) O=$(SRTE_OUTPUT) SRCDIR=$(SRTE_SRCDIR)
 
 %::
-	$(Q)mkdir -p $(RTE_OUTPUT)
-	$(Q)$(MAKE) -C $(RTE_OUTPUT) -f $(RTE_EXTMK) $@ \
-		S=$(RTE_SRCDIR) O=$(RTE_OUTPUT) SRCDIR=$(RTE_SRCDIR)
+	$(Q)mkdir -p $(SRTE_OUTPUT)
+	$(Q)$(MAKE) -C $(SRTE_OUTPUT) -f $(SRTE_EXTMK) $@ \
+		S=$(SRTE_SRCDIR) O=$(SRTE_OUTPUT) SRCDIR=$(SRTE_SRCDIR)
 else
-include $(RTE_SDK)/mk/rte.obj.mk
+include $(SRTE_SDK)/mk/rte.obj.mk
 endif

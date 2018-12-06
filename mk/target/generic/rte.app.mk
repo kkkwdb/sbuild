@@ -4,7 +4,7 @@
 #
 # define Makefile targets that are specific to an environment.
 #
-include $(RTE_SDK)/mk/exec-env/$(RTE_EXEC_ENV)/rte.app.mk
+include $(SRTE_SDK)/mk/exec-env/$(SRTE_EXEC_ENV)/rte.app.mk
 
 .PHONY: exec-env-appinstall
 target-appinstall: exec-env-appinstall

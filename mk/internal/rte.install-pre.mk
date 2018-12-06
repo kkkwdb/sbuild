@@ -10,9 +10,9 @@ INSTALL-n := $(filter INSTALL-n-%,$(.VARIABLES))
 INSTALL- := $(filter INSTALL--%,$(.VARIABLES))
 INSTALL-DIRS-y := $(patsubst INSTALL-y-%,%,$(INSTALL-y))
 INSTALL-FILES-y := $(foreach i,$(INSTALL-DIRS-y),\
-	$(addprefix $(RTE_OUTPUT)/$(i)/,$(notdir $(INSTALL-y-$(i)))))
+	$(addprefix $(SRTE_OUTPUT)/$(i)/,$(notdir $(INSTALL-y-$(i)))))
 INSTALL-FILES-all := $(foreach i,$(INSTALL-DIRS-y) $(INSTALL-DIRS-n) $(INSTALL-DIRS-),\
-	$(addprefix $(RTE_OUTPUT)/$(i)/,$(notdir $(INSTALL-y-$(i)))))
+	$(addprefix $(SRTE_OUTPUT)/$(i)/,$(notdir $(INSTALL-y-$(i)))))
 
 _INSTALL_TARGETS := _preinstall _install _postinstall
 
@@ -25,8 +25,8 @@ SYMLINK-n := $(filter SYMLINK-n-%,$(.VARIABLES))
 SYMLINK- := $(filter SYMLINK--%,$(.VARIABLES))
 SYMLINK-DIRS-y := $(patsubst SYMLINK-y-%,%,$(SYMLINK-y))
 SYMLINK-FILES-y := $(foreach i,$(SYMLINK-DIRS-y),\
-	$(addprefix $(RTE_OUTPUT)/$(i)/,$(notdir $(SYMLINK-y-$(i)))))
+	$(addprefix $(SRTE_OUTPUT)/$(i)/,$(notdir $(SYMLINK-y-$(i)))))
 SYMLINK-FILES-all := $(foreach i,$(SYMLINK-DIRS-y) $(SYMLINK-DIRS-n) $(SYMLINK-DIRS-),\
-	$(addprefix $(RTE_OUTPUT)/$(i)/,$(notdir $(SYMLINK-y-$(i)))))
+	$(addprefix $(SRTE_OUTPUT)/$(i)/,$(notdir $(SYMLINK-y-$(i)))))
 
 _SYMLINK_TARGETS := _presymlink _symlink _postsymlink

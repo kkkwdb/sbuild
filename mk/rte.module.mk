@@ -12,16 +12,16 @@ endif
 ##### if launched from rte build system
 else
 
-include $(RTE_SDK)/mk/internal/rte.install-pre.mk
-include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
-include $(RTE_SDK)/mk/internal/rte.build-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.install-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.build-pre.mk
 
 # VPATH contains at least SRCDIR
 VPATH += $(SRCDIR)
 
 _BUILD = $(MODULE).ko
 _INSTALL = $(INSTALL-FILES-y) $(SYMLINK-FILES-y) \
-	$(RTE_OUTPUT)/kmod/$(MODULE).ko
+	$(SRTE_OUTPUT)/kmod/$(MODULE).ko
 _CLEAN = doclean
 
 SRCS_LINKS = $(addsuffix _link,$(SRCS-y))
@@ -48,18 +48,18 @@ build: _postbuild
 # build module
 $(MODULE).ko: $(SRCS_LINKS)
 	@if [ ! -f $(notdir Makefile) ]; then ln -nfs $(SRCDIR)/Makefile . ; fi
-	@$(MAKE) -C $(RTE_KERNELDIR) M=$(CURDIR) O=$(RTE_KERNELDIR) \
+	@$(MAKE) -C $(SRTE_KERNELDIR) M=$(CURDIR) O=$(SRTE_KERNELDIR) \
 		CC="$(KERNELCC)" CROSS_COMPILE=$(CROSS) V=$(if $V,1,0)
 
-# install module in $(RTE_OUTPUT)/kmod
-$(RTE_OUTPUT)/kmod/$(MODULE).ko: $(MODULE).ko
+# install module in $(SRTE_OUTPUT)/kmod
+$(SRTE_OUTPUT)/kmod/$(MODULE).ko: $(MODULE).ko
 	@echo INSTALL-MODULE $(MODULE).ko
-	@[ -d $(RTE_OUTPUT)/kmod ] || mkdir -p $(RTE_OUTPUT)/kmod
-	@cp -f $(MODULE).ko $(RTE_OUTPUT)/kmod
+	@[ -d $(SRTE_OUTPUT)/kmod ] || mkdir -p $(SRTE_OUTPUT)/kmod
+	@cp -f $(MODULE).ko $(SRTE_OUTPUT)/kmod
 
 # install module
 modules_install:
-	@$(MAKE) -C $(RTE_KERNELDIR) M=$(CURDIR) O=$(RTE_KERNELDIR) \
+	@$(MAKE) -C $(SRTE_KERNELDIR) M=$(CURDIR) O=$(SRTE_KERNELDIR) \
 		modules_install
 
 .PHONY: clean
@@ -69,16 +69,16 @@ clean: _postclean
 .PHONY: doclean
 doclean:
 	@if [ ! -f $(notdir Makefile) ]; then ln -nfs $(SRCDIR)/Makefile . ; fi
-	$(Q)$(MAKE) -C $(RTE_KERNELDIR) M=$(CURDIR) O=$(RTE_KERNELDIR) clean
+	$(Q)$(MAKE) -C $(SRTE_KERNELDIR) M=$(CURDIR) O=$(SRTE_KERNELDIR) clean
 	@$(foreach FILE,$(SRCS-y) $(SRCS-n) $(SRCS-),\
 		if [ -h $(notdir $(FILE)) ]; then rm -f $(notdir $(FILE)) ; fi ;)
 	@if [ -h $(notdir Makefile) ]; then rm -f $(notdir Makefile) ; fi
 	@rm -f $(_BUILD_TARGETS) $(_INSTALL_TARGETS) $(_CLEAN_TARGETS) \
 		$(INSTALL-FILES-all)
 
-include $(RTE_SDK)/mk/internal/rte.install-post.mk
-include $(RTE_SDK)/mk/internal/rte.clean-post.mk
-include $(RTE_SDK)/mk/internal/rte.build-post.mk
+include $(SRTE_SDK)/mk/internal/rte.install-post.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-post.mk
+include $(SRTE_SDK)/mk/internal/rte.build-post.mk
 
 .PHONY: FORCE
 FORCE:

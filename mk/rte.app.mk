@@ -2,30 +2,30 @@
 # Copyright(c) 2010-2017 Intel Corporation.
 # Copyright(c) 2014-2015 6WIND S.A.
 
-include $(RTE_SDK)/mk/internal/rte.compile-pre.mk
-include $(RTE_SDK)/mk/internal/rte.install-pre.mk
-include $(RTE_SDK)/mk/internal/rte.clean-pre.mk
-include $(RTE_SDK)/mk/internal/rte.build-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.install-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-pre.mk
+include $(SRTE_SDK)/mk/internal/rte.build-pre.mk
 
 # VPATH contains at least SRCDIR
 VPATH += $(SRCDIR)
 
 _BUILD = $(APP)
 _INSTALL = $(INSTALL-FILES-y) $(SYMLINK-FILES-y)
-_INSTALL += $(RTE_OUTPUT)/app/$(APP) $(RTE_OUTPUT)/app/$(APP).map
+_INSTALL += $(SRTE_OUTPUT)/app/$(APP) $(SRTE_OUTPUT)/app/$(APP).map
 POSTINSTALL += target-appinstall
 _CLEAN = doclean
 POSTCLEAN += target-appclean
 
 ifeq ($(NO_LDSCRIPT),)
-LDSCRIPT = $(RTE_LDSCRIPT)
+LDSCRIPT = $(SRTE_LDSCRIPT)
 endif
 
 # Link only the libraries used in the application
 LDFLAGS += --as-needed
 
 # default path for libs
-_LDLIBS-y += -L$(RTE_SDK_BIN)/lib
+_LDLIBS-y += -L$(SRTE_SDK_BIN)/lib
 _LDLIBS-y += $(EXECENV_LDLIBS)
 
 LDLIBS += $(_LDLIBS-y) $(CPU_LDLIBS) $(EXTRA_LDLIBS)
@@ -46,8 +46,8 @@ filter-libs = \
 
 LDLIBS := $(call filter-libs,$(LDLIBS))
 
-ifeq ($(RTE_DEVEL_BUILD)$(CONFIG_RTE_BUILD_SHARED_LIB),yy)
-LDFLAGS += -rpath=$(RTE_SDK_BIN)/lib
+ifeq ($(SRTE_DEVEL_BUILD)$(CONFIG_SRTE_BUILD_SHARED_LIB),yy)
+LDFLAGS += -rpath=$(SRTE_SDK_BIN)/lib
 endif
 
 MAPFLAGS = -Map=$@.map --cref
@@ -116,20 +116,20 @@ $(APP): $(OBJS-y) $(LDLIBS_FILES) $(DEP_$(APP)) $(LDSCRIPT) FORCE
 		$(O_TO_EXE_DO))
 
 #
-# install app in $(RTE_OUTPUT)/app
+# install app in $(SRTE_OUTPUT)/app
 #
-$(RTE_OUTPUT)/app/$(APP): $(APP)
+$(SRTE_OUTPUT)/app/$(APP): $(APP)
 	@echo "  INSTALL-APP $(APP)"
-	@[ -d $(RTE_OUTPUT)/app ] || mkdir -p $(RTE_OUTPUT)/app
-	$(Q)cp -f $(APP) $(RTE_OUTPUT)/app
+	@[ -d $(SRTE_OUTPUT)/app ] || mkdir -p $(SRTE_OUTPUT)/app
+	$(Q)cp -f $(APP) $(SRTE_OUTPUT)/app
 
 #
-# install app map file in $(RTE_OUTPUT)/app
+# install app map file in $(SRTE_OUTPUT)/app
 #
-$(RTE_OUTPUT)/app/$(APP).map: $(APP)
+$(SRTE_OUTPUT)/app/$(APP).map: $(APP)
 	@echo "  INSTALL-MAP $(APP).map"
-	@[ -d $(RTE_OUTPUT)/app ] || mkdir -p $(RTE_OUTPUT)/app
-	$(Q)cp -f $(APP).map $(RTE_OUTPUT)/app
+	@[ -d $(SRTE_OUTPUT)/app ] || mkdir -p $(SRTE_OUTPUT)/app
+	$(Q)cp -f $(APP).map $(SRTE_OUTPUT)/app
 
 #
 # Clean all generated files
@@ -146,20 +146,20 @@ doclean:
 
 .PHONY: distclean
 distclean: clean
-	-$(Q)$(RM) -f $(RTE_OUTPUT)/app/$(APP).map $(RTE_OUTPUT)/app/$(APP)
-	-$(Q)$(RM) $(RTE_OUTPUT)/.config
-	-$(Q)rmdir $(RTE_OUTPUT)/app
-	-$(Q)rmdir $(RTE_OUTPUT)
+	-$(Q)$(RM) -f $(SRTE_OUTPUT)/app/$(APP).map $(SRTE_OUTPUT)/app/$(APP)
+	-$(Q)$(RM) $(SRTE_OUTPUT)/.config
+	-$(Q)rmdir $(SRTE_OUTPUT)/app
+	-$(Q)rmdir $(SRTE_OUTPUT)
 
-include $(RTE_SDK)/mk/internal/rte.compile-post.mk
-include $(RTE_SDK)/mk/internal/rte.install-post.mk
-include $(RTE_SDK)/mk/internal/rte.clean-post.mk
-include $(RTE_SDK)/mk/internal/rte.build-post.mk
+include $(SRTE_SDK)/mk/internal/rte.compile-post.mk
+include $(SRTE_SDK)/mk/internal/rte.install-post.mk
+include $(SRTE_SDK)/mk/internal/rte.clean-post.mk
+include $(SRTE_SDK)/mk/internal/rte.build-post.mk
 
-ifneq ($(wildcard $(RTE_SDK)/mk/target/$(RTE_TARGET)/rte.app.mk),)
-include $(RTE_SDK)/mk/target/$(RTE_TARGET)/rte.app.mk
+ifneq ($(wildcard $(SRTE_SDK)/mk/target/$(SRTE_TARGET)/rte.app.mk),)
+include $(SRTE_SDK)/mk/target/$(SRTE_TARGET)/rte.app.mk
 else
-include $(RTE_SDK)/mk/target/generic/rte.app.mk
+include $(SRTE_SDK)/mk/target/generic/rte.app.mk
 endif
 
 .PHONY: FORCE

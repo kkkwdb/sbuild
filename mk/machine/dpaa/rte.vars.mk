@@ -29,8 +29,8 @@
 # CPU_ASFLAGS =
 MACHINE_CFLAGS += -march=armv8-a+crc
 
-ifdef CONFIG_RTE_ARCH_ARM_TUNE
-MACHINE_CFLAGS += -mtune=$(CONFIG_RTE_ARCH_ARM_TUNE:"%"=%)
+ifdef CONFIG_SRTE_ARCH_ARM_TUNE
+MACHINE_CFLAGS += -mtune=$(CONFIG_SRTE_ARCH_ARM_TUNE:"%"=%)
 endif
 
 # To avoid TLS corruption issue.
